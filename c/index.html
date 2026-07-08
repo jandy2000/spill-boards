@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taro Pop — Challenge</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(160deg, #FFEFE9 0%, #FBE7F1 45%, #EDE8FA 100%);
+    color: #3B3450; text-align: center; padding: 24px;
+  }
+  .card {
+    background: rgba(255,255,255,0.75); border: 2px solid #fff; border-radius: 24px;
+    padding: 36px 28px; max-width: 380px; width: 100%;
+    box-shadow: 0 10px 30px rgba(80,60,120,0.18);
+  }
+  .cup { font-size: 56px; }
+  h1 { font-size: 22px; color: #8C7ABF; margin: 10px 0 4px; }
+  .challenge { font-size: 17px; margin: 14px 0 4px; line-height: 1.5; }
+  .swaps { font-weight: 800; color: #C7991A; }
+  .sub { font-size: 13px; color: #8B82A8; margin-bottom: 22px; }
+  a.btn {
+    display: block; text-decoration: none; font-weight: 800; font-size: 16px;
+    border-radius: 999px; padding: 14px 20px; margin: 10px 0;
+  }
+  .open { background: #8C7ABF; color: #fff; }
+  .store { background: #fff; color: #8C7ABF; border: 2px solid #E4DCF7; }
+  .tiny { font-size: 11px; color: #A9A2C2; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="cup">🧋</div>
+  <h1>Taro Pop</h1>
+  <p class="challenge" id="line">You've been challenged!</p>
+  <p class="sub" id="date"></p>
+  <a class="btn open" id="open" href="#">Open in Taro Pop</a>
+  <a class="btn store" id="store"
+     href="https://apps.apple.com/app/taro-pop/id0000000000">Get Taro Pop free</a>
+  <p class="tiny">One cup. One board. Once a day.</p>
+</div>
+<script>
+  // The whole challenge rides in the query string: d=date, s=swaps, n=name.
+  var q = new URLSearchParams(location.search);
+  var d = q.get("d") || "", s = q.get("s") || "", n = q.get("n") || "A friend";
+  var safe = function (t) { return String(t).slice(0, 24).replace(/[<>&"]/g, ""); };
+  if (d && s) {
+    document.getElementById("line").innerHTML =
+      "<b>" + safe(n) + "</b> cleared this board in <span class='swaps'>" +
+      safe(s) + " swap" + (s === "1" ? "" : "s") + "</span>.<br>Think you can do better?";
+    document.getElementById("date").textContent = "Board of " + safe(d);
+    document.getElementById("open").href =
+      "taropop://challenge?" + q.toString();
+  } else {
+    document.getElementById("open").href = "taropop://";
+  }
+</script>
+</body>
+</html>
